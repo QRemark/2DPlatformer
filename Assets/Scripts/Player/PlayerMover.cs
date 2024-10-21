@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerMover : MonoBehaviour
 {
     [SerializeField] private float _moveSpeed = 3.0f;
-    [SerializeField] private float _jumpForce = 3.0f;
+    [SerializeField] private float _jumpForce = 10.0f;
     [SerializeField] private float _speedScaller = 2f;
 
     private Rigidbody2D _playerRigidbody;
@@ -19,17 +19,21 @@ public class PlayerMover : MonoBehaviour
     {
         Vector2 velocity = _playerRigidbody.velocity;
 
-        if (userInput.ShiftInput == true)
-            velocity.x = userInput.HorizontalInput * _moveSpeed * _speedScaller;
-        else
-            velocity.x = userInput.HorizontalInput * _moveSpeed;
+        velocity.x = userInput.HorizontalInput * _moveSpeed;
 
         _playerRigidbody.velocity = velocity;
     }
 
-    public void ChangePositionY(UserInput userInput)
+    public void ChangePositionXSpeed(UserInput userInput)
     {
-        if (userInput.VerticalInput)
+        Vector2 velocity = _playerRigidbody.velocity;
+        velocity.x = userInput.HorizontalInput * _moveSpeed * _speedScaller;
+        _playerRigidbody.velocity = velocity;
+    }
+
+    public void ChangePositionY(UserInput userInput, bool isGround)
+    {
+        if (userInput.VerticalInput && isGround == true)
         {
             _playerRigidbody.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
         }
