@@ -49,7 +49,6 @@ public class Player : MonoBehaviour
     {
         if (_groundDetector.IsGround == false)
             Fall();
-
         if (_groundDetector.IsGround == true && _userInput.HorizontalInput == 0f && _userInput.VerticalInput == false)
             Idle();
         if (_groundDetector.IsGround == true && _userInput.HorizontalInput != 0f && _userInput.ShiftInput == false)
@@ -93,7 +92,7 @@ public class Player : MonoBehaviour
         _playerAnimation.PlayFall();
     }
 
-    private void FlipSprite(UserInput userInput)//перебросить в плеера
+    private void FlipSprite(UserInput userInput)
     {
         if (userInput.HorizontalInput < 0.0f)
             transform.localScale = new Vector3(-_localScale, _localScale, 1);

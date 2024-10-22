@@ -4,12 +4,12 @@ using UnityEngine;
 public class EnemyPool : MonoBehaviour
 {
     private List<Enemy> _pool;
+
     private int _maxSize;
 
     public void Initialize(Enemy prefab, int initialSize, int maxSize)
     {
         _pool = new List<Enemy>();
-
         _maxSize = maxSize;
 
         for (int i = 0; i < initialSize; i++)

@@ -10,15 +10,12 @@ public class Enemy : MonoBehaviour
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
-        _enemyMover = GetComponent<EnemyMover>(); 
+        _enemyMover = GetComponent<EnemyMover>();
     }
 
     private void Update()
     {
-        if (_enemyMover != null)
-        {
-            _enemyMover.MoveToNextPoint();
-        }
+        _enemyMover.MoveToNextPoint();
     }
 
     public void SetPath(EnemyPath path)

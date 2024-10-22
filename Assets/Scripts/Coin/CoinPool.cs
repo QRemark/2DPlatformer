@@ -4,6 +4,7 @@ using UnityEngine;
 public class CoinPool : MonoBehaviour
 {
     private List<Coin> _pool;
+
     private int _maxSize;
 
     public void Initialize(Coin prefab, int initialSize, int maxSize)

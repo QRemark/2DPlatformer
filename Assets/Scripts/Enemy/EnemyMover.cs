@@ -25,7 +25,9 @@ public class EnemyMover : MonoBehaviour
         {
             Transform targetPoint;
 
-            if (_currentTarget == null || _currentTarget == _currentPath.PointB) //посмотреть дотвин
+            float step;
+
+            if (_currentTarget == null || _currentTarget == _currentPath.PointB) 
             {
                 targetPoint = _currentPath.PointA;
             }
@@ -35,7 +37,7 @@ public class EnemyMover : MonoBehaviour
             }
 
             Vector3 direction = (targetPoint.position - transform.position).normalized;
-            float step = _speed * Time.deltaTime;
+            step = _speed * Time.deltaTime;
 
             transform.position = Vector3.MoveTowards(transform.position, targetPoint.position, step);
 
