@@ -33,7 +33,7 @@ public class PlayerMover : MonoBehaviour
 
     public void ChangePositionY(UserInput userInput, bool isGround)
     {
-        if (userInput.VerticalInput && isGround == true)
+        if (userInput.VerticalInput && isGround)
         {
             _playerRigidbody.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
         }

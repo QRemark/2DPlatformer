@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class EnemyPath : MonoBehaviour
 {
-    [SerializeField] private Transform pointA; 
-    [SerializeField] private Transform pointB; 
+    [SerializeField] private Transform _pointA; 
+    [SerializeField] private Transform _pointB; 
 
-    public Transform PointA => pointA; 
-    public Transform PointB => pointB; 
+    public Transform PointA => _pointA; 
+    public Transform PointB => _pointB; 
 }

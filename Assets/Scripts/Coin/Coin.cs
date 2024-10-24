@@ -18,6 +18,4 @@ public class Coin : MonoBehaviour
             player.CollectCoin();
         }
     }
-
-    private void OnTriggerExit2D(Collider2D collision) {}
 }

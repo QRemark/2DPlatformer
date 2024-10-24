@@ -26,7 +26,7 @@ public class PlayerAnimation : MonoBehaviour
         _animator.SetTrigger(_animatorJump);
     }
 
-    public void PlayIdle(UserInput userInput)
+    public void PlayIdle()
     {
         _animator.SetBool(_animatorFall, true);
         _animator.SetFloat(_animatorSpeed, Mathf.Abs(0));

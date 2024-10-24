@@ -14,7 +14,7 @@ public class EnemySpawner : MonoBehaviour
 
     private void Awake()
     {
-        _enemyPool = gameObject.AddComponent<EnemyPool>();
+        _enemyPool = gameObject.GetComponent<EnemyPool>();
         _enemyPool.Initialize(_prefab, _poolCapacity, _poolMaxSize);
     }
 
@@ -36,7 +36,6 @@ public class EnemySpawner : MonoBehaviour
                 enemy.transform.position = _enemyPaths[i].PointA.position;
                 enemy.ResetSpeed();
             }
-
         }
     }
 }

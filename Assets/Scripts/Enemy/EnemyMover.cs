@@ -10,9 +10,16 @@ public class EnemyMover : MonoBehaviour
 
     private EnemyPath _currentPath;
 
+    private WaitForSeconds _cooldown;
+
     private float _waitOnPoint = 5.0f;
 
     private bool _isWaiting = false;
+
+    private void Awake()
+    {
+        _cooldown = new WaitForSeconds(_waitOnPoint);
+    }
 
     public void SetPath(EnemyPath enemyPath)
     {
@@ -36,7 +43,6 @@ public class EnemyMover : MonoBehaviour
                 targetPoint = _currentPath.PointB;
             }
 
-            Vector3 direction = (targetPoint.position - transform.position).normalized;
             step = _speed * Time.deltaTime;
 
             transform.position = Vector3.MoveTowards(transform.position, targetPoint.position, step);
@@ -52,7 +58,7 @@ public class EnemyMover : MonoBehaviour
     private IEnumerator WaitBeforeMove()
     {
         _isWaiting = true;
-        yield return new WaitForSeconds(_waitOnPoint);
+        yield return _cooldown;
         _isWaiting = false;
     }
 }

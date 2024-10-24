@@ -14,7 +14,7 @@ public class CoinSpawner : MonoBehaviour
 
     private void Awake()
     {
-        _coinPool = gameObject.AddComponent<CoinPool>();
+        _coinPool = gameObject.GetComponent<CoinPool>();
         _coinPool.Initialize(_prefab, _poolCapacity, _poolMaxSize);
     }
 

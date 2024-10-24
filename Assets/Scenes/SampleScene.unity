@@ -1265,8 +1265,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6587de5ac757b64ca492706f47a2a97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointA: {fileID: 1022539929}
-  pointB: {fileID: 541380704}
+  _pointA: {fileID: 1022539929}
+  _pointB: {fileID: 541380704}
 --- !u!1 &885068936
 GameObject:
   m_ObjectHideFlags: 0
@@ -2850,8 +2850,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6587de5ac757b64ca492706f47a2a97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointA: {fileID: 15827383}
-  pointB: {fileID: 1759420058}
+  _pointA: {fileID: 15827383}
+  _pointB: {fileID: 1759420058}
 --- !u!1 &1826432305
 GameObject:
   m_ObjectHideFlags: 0
@@ -2898,8 +2898,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6587de5ac757b64ca492706f47a2a97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointA: {fileID: 466590315}
-  pointB: {fileID: 495937453}
+  _pointA: {fileID: 466590315}
+  _pointB: {fileID: 495937453}
 --- !u!1 &1858343077
 GameObject:
   m_ObjectHideFlags: 0

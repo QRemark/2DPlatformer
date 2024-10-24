@@ -13,7 +13,9 @@ public class Player : MonoBehaviour
     [SerializeField] private PlayerAnimation _playerAnimation;
     [SerializeField] private GroundDetector _groundDetector;
 
-    private int _localScale = 5;
+    private Quaternion _rotateLeft = Quaternion.Euler(0, 180, 0);
+    private Quaternion _rotateRight = Quaternion.identity;
+
     private int _coinsInPocket = 0;
 
     private void Awake()
@@ -47,22 +49,37 @@ public class Player : MonoBehaviour
 
     private void Live()
     {
-        if (_groundDetector.IsGround == false)
+        if ( _groundDetector.IsGround == false)
+        {
             Fall();
-        if (_groundDetector.IsGround == true && _userInput.HorizontalInput == 0f && _userInput.VerticalInput == false)
-            Idle();
-        if (_groundDetector.IsGround == true && _userInput.HorizontalInput != 0f && _userInput.ShiftInput == false)
-            Walk();
-        if (_groundDetector.IsGround == true && _userInput.HorizontalInput != 0f && _userInput.ShiftInput == true)
-            Run();
-        if (_groundDetector.IsGround == true && _userInput.VerticalInput == true)
+            return;
+        }
+
+        if (_userInput.VerticalInput)
+        {
             Jump();
+        }
+        else if(_userInput.HorizontalInput == 0f)
+        {
+            Idle();
+        }
+        else
+        {
+            if (_userInput.ShiftInput)
+            {
+                Run();
+            }
+            else
+            {
+                Walk();
+            }
+        }
     }
 
     private void Idle()
     {
         FlipSprite(_userInput);
-        _playerAnimation.PlayIdle(_userInput);
+        _playerAnimation.PlayIdle();
     }
 
     private void Walk()
@@ -95,8 +112,8 @@ public class Player : MonoBehaviour
     private void FlipSprite(UserInput userInput)
     {
         if (userInput.HorizontalInput < 0.0f)
-            transform.localScale = new Vector3(-_localScale, _localScale, 1);
+            transform.localRotation = _rotateLeft;
         else if (userInput.HorizontalInput > 0.0f)
-            transform.localScale = new Vector3(_localScale, _localScale, 1);
+            transform.localRotation = _rotateRight;
     }
 }
