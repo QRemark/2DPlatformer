@@ -37,24 +37,12 @@ public class EnemyMover : MonoBehaviour
 
         Transform targetPoint = _currentPath.Points[_currentPointIndex];
 
-        //if (_currentTarget == null || _currentTarget == _currentPath.PointB)
-        //{
-        //    targetPoint = _currentPath.PointA;
-        //}
-        //else
-        //{
-        //    targetPoint = _currentPath.PointB;
-        //}
-
         float step = _speed * Time.deltaTime;
 
         transform.position = Vector3.MoveTowards(transform.position, targetPoint.position, step);
 
         if (IsTargetReached(targetPoint))
-        {
-            //_currentTarget = targetPoint;
             StartCoroutine(WaitBeforeMove());
-        }
     }
 
     private IEnumerator WaitBeforeMove()

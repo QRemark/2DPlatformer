@@ -12,21 +12,20 @@ public class UserInput : MonoBehaviour
 
     public float HorizontalInput { get; private set; }
 
-    public bool VerticalInput { get; private set; }
-
     public bool ShiftInput { get; private set; }
 
     public void LisentKey()
     {
         HorizontalInput = Input.GetAxis(_horizontalMoveButtons);
 
-        if(VerticalInput = Input.GetKeyDown(_spaceKey))
+        if(Input.GetKeyDown(_spaceKey))
         {
             _isJump = true;
         }
 
         ShiftInput = Input.GetKey(_shiftKey);
     }
+
     public bool GetIsJump() => GetBoolAsTrigger(ref _isJump);
 
     private bool GetBoolAsTrigger(ref bool value)

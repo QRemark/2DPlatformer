@@ -21,22 +21,11 @@ public class BackgroundAudioMaker : MonoBehaviour
         PlayMaxVolume();
     }
 
-    //private void Update()
-    //{
-    //    ChangeVolume();
-    //}
-
     private void PlayMaxVolume()
     {
         _sound.Play();
         SetTargetVolume(_maxVolume);
     }
-
-    //private void ChangeVolume()
-    //{
-    //    _sound.volume = Mathf.MoveTowards(_sound.volume, _targetVolume,
-    //        _changeVolumeSpeed * Time.deltaTime);
-    //}
 
     private void SetTargetVolume(float targetVolume)
     {

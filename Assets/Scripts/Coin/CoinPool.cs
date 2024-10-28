@@ -8,21 +8,17 @@ public class CoinPool : MonoBehaviour
 
     private Coin _prefab;
 
-    private int _maxSize;
-
     public void Initialize(Coin prefab, int initialSize, int maxSize)
     {
         _prefab = prefab;
         _pool = new List<Coin>();
         _deactiveCoin = new Queue<Coin>();
-        _maxSize = maxSize;
 
         for (int i = 0; i < initialSize; i++)
         {
             Coin coin = Create();
             coin.gameObject.SetActive(false);
             _deactiveCoin.Enqueue(coin);
-            //_pool.Add(coin);
         }
     }
 
@@ -37,7 +33,6 @@ public class CoinPool : MonoBehaviour
 
         coin.gameObject.SetActive(true);
         return coin;
-
     }
 
     public void ReleaseCoin(Coin coin)

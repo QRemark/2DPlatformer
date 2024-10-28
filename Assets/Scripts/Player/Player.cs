@@ -9,6 +9,9 @@ public class Player : MonoBehaviour
     [SerializeField] private PlayerAnimation _playerAnimation;
     [SerializeField] private GroundDetector _groundDetector;
 
+    private Quaternion _rotateLeft = Quaternion.Euler(0, 180, 0);
+    private Quaternion _rotateRight = Quaternion.identity;
+
     private void Awake()
     {
         GetComponents();
@@ -21,8 +24,8 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        PlayMove();
-        PlayAnimation();
+        FlipSprite();
+        Play();
     }
 
     private void GetComponents()
@@ -38,78 +41,46 @@ public class Player : MonoBehaviour
         _userInput.LisentKey();
     }
 
-    private void PlayAnimation()
+    private void Play()
     {
         if (_groundDetector.IsGround == false)
         {
-            Fall();
+            _playerAnimation.PlayFall();
             return;
         }
 
-        if (_userInput.VerticalInput)
+        if (_userInput.GetIsJump())
         {
-            Jump();
+            _playerMover.DirectY();
+            _playerAnimation.PlayJump();
         }
         else if (_userInput.HorizontalInput == 0f)
         {
-            Idle();
+            _playerMover.StopMoving();
+            _playerAnimation.PlayIdle();
         }
         else
         {
+            _playerMover.SetDirection(_userInput.HorizontalInput);
+
             if (_userInput.ShiftInput)
             {
-                Run();
+                _playerMover.DirectXFast();
+                _playerAnimation.PlayRun(_userInput);
             }
             else
             {
-                Walk();
+                _playerMover.DirectX();
+                _playerAnimation.PlayWalk(_userInput);
             }
         }
     }
 
-    private void Idle()
+    private void FlipSprite()
     {
-        _playerAnimation.PlayIdle();
-    }
-
-    private void Walk()
-    {
-        _playerAnimation.PlayWalk(_userInput);
-    }
-
-    private void Run()
-    { 
-        _playerAnimation.PlayRun(_userInput);
-    }
-
-    private void Jump()
-    {
-        _playerAnimation.PlayJump();
-    }
-
-    private void Fall()
-    {
-        _playerAnimation.PlayFall();
-    }
-
-    private void PlayMove()
-    {
-        if (_userInput.GetIsJump() && _groundDetector.IsGround)
-        {
-            _playerMover.ChangePositionY(_userInput, _groundDetector.IsGround);
-        }
-        else
-        {
-            if (_userInput.ShiftInput)
-            {
-                _playerMover.ChangePositionXSpeed(_userInput);
-            }
-            else
-            {
-                _playerMover.ChangePositionX(_userInput);
-            }
-        }
-
-        _playerMover.FlipSprite(_userInput);
+        if (_userInput.HorizontalInput < 0.0f)
+            transform.localRotation = _rotateLeft;
+        else if (_userInput.HorizontalInput > 0.0f)
+            transform.localRotation = _rotateRight;
     }
 }

@@ -1,7 +1,6 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D), typeof(UserInput))]
-//[RequireComponent(typeof(UserInput))]
+[RequireComponent(typeof(Rigidbody2D))]
 public class PlayerMover : MonoBehaviour
 {
     [SerializeField] private float _moveSpeed = 3.0f;
@@ -9,48 +8,50 @@ public class PlayerMover : MonoBehaviour
     [SerializeField] private float _speedScaller = 2f;
 
     private Rigidbody2D _playerRigidbody;
-    
-    private float _horizontalInput;
 
-    private Quaternion _rotateLeft = Quaternion.Euler(0, 180, 0);
-    private Quaternion _rotateRight = Quaternion.identity;
+    private float _direction = 1f;
 
     private void Awake()
     {
         _playerRigidbody = GetComponent<Rigidbody2D>();
     }
 
-    public void ChangePositionX(UserInput userInput)
+    public void DirectX()
     {
         Vector2 velocity = _playerRigidbody.velocity;
 
-        velocity.x = userInput.HorizontalInput * _moveSpeed;
+        velocity.x = _moveSpeed * _direction;
 
         _playerRigidbody.velocity = velocity;
     }
 
-    public void ChangePositionXSpeed(UserInput userInput)
+    public void DirectXFast()
     {
         Vector2 velocity = _playerRigidbody.velocity;
 
-        velocity.x = userInput.HorizontalInput * _moveSpeed * _speedScaller;
+        velocity.x = _moveSpeed * _speedScaller * _direction;
 
         _playerRigidbody.velocity = velocity;
     }
 
-    public void ChangePositionY(UserInput userInput, bool isGround)
+    public void DirectY()
     {
-        if (userInput.VerticalInput && isGround)
+        StopMoving();
+        _playerRigidbody.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
+    }
+
+    public void SetDirection(float horizontalInput)
+    {
+        if (horizontalInput != 0)
         {
-            _playerRigidbody.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
+            _direction = Mathf.Sign(horizontalInput);
         }
     }
 
-    public void FlipSprite(UserInput userInput)
+    public void StopMoving()
     {
-        if (userInput.HorizontalInput < 0.0f)
-            transform.localRotation = _rotateLeft;
-        else if (userInput.HorizontalInput > 0.0f)
-            transform.localRotation = _rotateRight;
+        Vector2 velocity = _playerRigidbody.velocity;
+        velocity.x = 0;
+        _playerRigidbody.velocity = velocity;
     }
 }
