@@ -94,7 +94,7 @@ public class Player : MonoBehaviour
 
     private void PlayMove()
     {
-        if (_userInput.VerticalInput && _groundDetector.IsGround)
+        if (_userInput.GetIsJump() && _groundDetector.IsGround)
         {
             _playerMover.ChangePositionY(_userInput, _groundDetector.IsGround);
         }
