@@ -32,13 +32,14 @@ public class CoinSpawner : MonoBehaviour
             if (coin != null)
             {
                 coin.transform.position = _spawnPoints[i].position;
-                coin.Initialize(this);
+                coin.OnCollected += ReturnCoinInPool;
             }
         }
     }
 
     public void ReturnCoinInPool(Coin coin)
     {
+        coin.OnCollected -= ReturnCoinInPool;
         _coinPool.ReleaseCoin(coin);
     }
 }

@@ -1,22 +1,13 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(Animator))]
-[RequireComponent(typeof(UserInput))]
-[RequireComponent(typeof(PlayerMover))]
-[RequireComponent(typeof(PlayerAnimation))]
-[RequireComponent(typeof(GroundDetector))]
+[RequireComponent(typeof(Animator), typeof(UserInput), typeof(PlayerMover))]
+[RequireComponent(typeof(PlayerAnimation), typeof(GroundDetector), typeof(Collector))]
 public class Player : MonoBehaviour
 {
     [SerializeField] private UserInput _userInput;
     [SerializeField] private PlayerMover _playerMover;
     [SerializeField] private PlayerAnimation _playerAnimation;
     [SerializeField] private GroundDetector _groundDetector;
-
-    private Quaternion _rotateLeft = Quaternion.Euler(0, 180, 0);
-    private Quaternion _rotateRight = Quaternion.identity;
-
-    private int _coinsInPocket = 0;
 
     private void Awake()
     {
@@ -26,12 +17,12 @@ public class Player : MonoBehaviour
     private void Update()
     {
         ReadInput();
-        Live();
     }
 
-    public void CollectCoin()
+    private void FixedUpdate()
     {
-        _coinsInPocket++;
+        PlayMove();
+        PlayAnimation();
     }
 
     private void GetComponents()
@@ -47,9 +38,9 @@ public class Player : MonoBehaviour
         _userInput.LisentKey();
     }
 
-    private void Live()
+    private void PlayAnimation()
     {
-        if ( _groundDetector.IsGround == false)
+        if (_groundDetector.IsGround == false)
         {
             Fall();
             return;
@@ -59,7 +50,7 @@ public class Player : MonoBehaviour
         {
             Jump();
         }
-        else if(_userInput.HorizontalInput == 0f)
+        else if (_userInput.HorizontalInput == 0f)
         {
             Idle();
         }
@@ -78,42 +69,47 @@ public class Player : MonoBehaviour
 
     private void Idle()
     {
-        FlipSprite(_userInput);
         _playerAnimation.PlayIdle();
     }
 
     private void Walk()
     {
-        FlipSprite(_userInput);
-        _playerMover.ChangePositionX(_userInput);
         _playerAnimation.PlayWalk(_userInput);
     }
 
     private void Run()
-    {
-        FlipSprite(_userInput);
-        _playerMover.ChangePositionXSpeed(_userInput);
+    { 
         _playerAnimation.PlayRun(_userInput);
     }
 
     private void Jump()
     {
-        FlipSprite(_userInput);
-        _playerMover.ChangePositionY(_userInput, _groundDetector.IsGround);
         _playerAnimation.PlayJump();
     }
 
     private void Fall()
     {
-        FlipSprite(_userInput);
         _playerAnimation.PlayFall();
     }
 
-    private void FlipSprite(UserInput userInput)
+    private void PlayMove()
     {
-        if (userInput.HorizontalInput < 0.0f)
-            transform.localRotation = _rotateLeft;
-        else if (userInput.HorizontalInput > 0.0f)
-            transform.localRotation = _rotateRight;
+        if (_userInput.VerticalInput && _groundDetector.IsGround)
+        {
+            _playerMover.ChangePositionY(_userInput, _groundDetector.IsGround);
+        }
+        else
+        {
+            if (_userInput.ShiftInput)
+            {
+                _playerMover.ChangePositionXSpeed(_userInput);
+            }
+            else
+            {
+                _playerMover.ChangePositionX(_userInput);
+            }
+        }
+
+        _playerMover.FlipSprite(_userInput);
     }
 }

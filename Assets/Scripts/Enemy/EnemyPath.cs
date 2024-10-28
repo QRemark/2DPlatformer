@@ -1,10 +1,11 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class EnemyPath : MonoBehaviour
 {
-    [SerializeField] private Transform _pointA; 
-    [SerializeField] private Transform _pointB; 
+    [SerializeField] private List<Transform> _points; 
+    //[SerializeField] private Transform _pointB; 
 
-    public Transform PointA => _pointA; 
-    public Transform PointB => _pointB; 
+    public List<Transform> Points => _points; 
+    //public Transform PointB => _pointB; 
 }

@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(UserInput))]
+[RequireComponent(typeof(Rigidbody2D), typeof(UserInput))]
+//[RequireComponent(typeof(UserInput))]
 public class PlayerMover : MonoBehaviour
 {
     [SerializeField] private float _moveSpeed = 3.0f;
@@ -9,8 +9,13 @@ public class PlayerMover : MonoBehaviour
     [SerializeField] private float _speedScaller = 2f;
 
     private Rigidbody2D _playerRigidbody;
+    
+    private float _horizontalInput;
 
-    private void FixedUpdate()
+    private Quaternion _rotateLeft = Quaternion.Euler(0, 180, 0);
+    private Quaternion _rotateRight = Quaternion.identity;
+
+    private void Awake()
     {
         _playerRigidbody = GetComponent<Rigidbody2D>();
     }
@@ -27,7 +32,9 @@ public class PlayerMover : MonoBehaviour
     public void ChangePositionXSpeed(UserInput userInput)
     {
         Vector2 velocity = _playerRigidbody.velocity;
+
         velocity.x = userInput.HorizontalInput * _moveSpeed * _speedScaller;
+
         _playerRigidbody.velocity = velocity;
     }
 
@@ -37,5 +44,13 @@ public class PlayerMover : MonoBehaviour
         {
             _playerRigidbody.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
         }
+    }
+
+    public void FlipSprite(UserInput userInput)
+    {
+        if (userInput.HorizontalInput < 0.0f)
+            transform.localRotation = _rotateLeft;
+        else if (userInput.HorizontalInput > 0.0f)
+            transform.localRotation = _rotateRight;
     }
 }

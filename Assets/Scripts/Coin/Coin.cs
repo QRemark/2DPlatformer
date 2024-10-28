@@ -1,21 +1,20 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(CircleCollider2D))]
 public class Coin : MonoBehaviour
 {
-    private CoinSpawner _coinSpawner;
+    public event Action<Coin> OnCollected;
 
-    public void Initialize(CoinSpawner spawner)
-    {
-        _coinSpawner = spawner;
-    }
+    //private CoinSpawner _coinSpawner;
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    //public void Initialize(CoinSpawner spawner)
+    //{
+    //    _coinSpawner = spawner;
+    //}
+
+    public void Collect()
     {
-        if(collision.TryGetComponent<Player>(out Player player))
-        {
-            _coinSpawner.ReturnCoinInPool(this);
-            player.CollectCoin();
-        }
+        OnCollected?.Invoke(this);
     }
 }

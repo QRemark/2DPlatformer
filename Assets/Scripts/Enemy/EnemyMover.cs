@@ -12,6 +12,8 @@ public class EnemyMover : MonoBehaviour
 
     private WaitForSeconds _cooldown;
 
+    private int _currentPointIndex;
+
     private float _waitOnPoint = 5.0f;
 
     private bool _isWaiting = false;
@@ -24,34 +26,34 @@ public class EnemyMover : MonoBehaviour
     public void SetPath(EnemyPath enemyPath)
     {
         _currentPath = enemyPath;
+        _currentPointIndex = 0;
+        transform.position = _currentPath.Points[_currentPointIndex].position;
     }
 
     public void MoveToNextPoint()
     {
-        if (_isWaiting == false)
+        if (_isWaiting || _currentPath == null || _currentPath.Points.Count == 0) 
+            return;
+
+        Transform targetPoint = _currentPath.Points[_currentPointIndex];
+
+        //if (_currentTarget == null || _currentTarget == _currentPath.PointB)
+        //{
+        //    targetPoint = _currentPath.PointA;
+        //}
+        //else
+        //{
+        //    targetPoint = _currentPath.PointB;
+        //}
+
+        float step = _speed * Time.deltaTime;
+
+        transform.position = Vector3.MoveTowards(transform.position, targetPoint.position, step);
+
+        if (IsTargetReached(targetPoint))
         {
-            Transform targetPoint;
-
-            float step;
-
-            if (_currentTarget == null || _currentTarget == _currentPath.PointB) 
-            {
-                targetPoint = _currentPath.PointA;
-            }
-            else
-            {
-                targetPoint = _currentPath.PointB;
-            }
-
-            step = _speed * Time.deltaTime;
-
-            transform.position = Vector3.MoveTowards(transform.position, targetPoint.position, step);
-
-            if (Vector3.Distance(transform.position, targetPoint.position) < _minDistance)
-            {
-                _currentTarget = targetPoint;
-                StartCoroutine(WaitBeforeMove());
-            }
+            //_currentTarget = targetPoint;
+            StartCoroutine(WaitBeforeMove());
         }
     }
 
@@ -60,5 +62,12 @@ public class EnemyMover : MonoBehaviour
         _isWaiting = true;
         yield return _cooldown;
         _isWaiting = false;
+
+        _currentPointIndex = (_currentPointIndex +1) % _currentPath.Points.Count;
+    }
+
+    private bool IsTargetReached(Transform targetPoint)
+    {
+        return transform.position.IsEnoughClose(targetPoint.position, _minDistance);
     }
 }

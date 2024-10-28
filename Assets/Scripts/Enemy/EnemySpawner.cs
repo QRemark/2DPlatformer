@@ -31,9 +31,8 @@ public class EnemySpawner : MonoBehaviour
             
             if (enemy != null)
             {
-                
                 enemy.SetPath(_enemyPaths[i]);
-                enemy.transform.position = _enemyPaths[i].PointA.position;
+                enemy.transform.position = _enemyPaths[i].Points[0].position;
                 enemy.ResetSpeed();
             }
         }

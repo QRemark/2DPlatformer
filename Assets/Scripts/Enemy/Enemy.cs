@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]
-[RequireComponent(typeof(EnemyMover))]
+[RequireComponent(typeof(Rigidbody), typeof(EnemyMover))]
+//[RequireComponent(typeof(EnemyMover))]
 public class Enemy : MonoBehaviour
 {
     private Rigidbody _rigidbody;
