@@ -1,78 +1,109 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Animator), typeof(UserInput), typeof(PlayerMover))]
+[RequireComponent(typeof(UserInput), typeof(PlayerMover))]
 [RequireComponent(typeof(PlayerAnimation), typeof(GroundDetector), typeof(Collector))]
 public class Player : MonoBehaviour
 {
-    [SerializeField] private UserInput _userInput;
     [SerializeField] private PlayerMover _playerMover;
     [SerializeField] private PlayerAnimation _playerAnimation;
+    [SerializeField] private UserInput _userInput;
     [SerializeField] private GroundDetector _groundDetector;
 
     private Quaternion _rotateLeft = Quaternion.Euler(0, 180, 0);
     private Quaternion _rotateRight = Quaternion.identity;
 
+    private bool _isRunning;
+    private bool _isJumping;
+
     private void Awake()
     {
-        GetComponents();
+        _userInput.OnJumpPressed += HandleJump;
+        _userInput.OnMovePressed += HandleMove;
+        _userInput.OnRunPressed += HandleRun;
     }
 
     private void Update()
     {
-        ReadInput();
+        _userInput.ListenKey();
+        UpdateAnimation();
     }
 
     private void FixedUpdate()
     {
         FlipSprite();
-        Play();
+        UpdateMove();
     }
 
-    private void GetComponents()
+    private void UpdateMove()
     {
-        _userInput = GetComponent<UserInput>();
-        _playerMover = GetComponent<PlayerMover>();
-        _playerAnimation = GetComponent<PlayerAnimation>();
-        _groundDetector = GetComponent<GroundDetector>();
-    }
-
-    private void ReadInput()
-    {
-        _userInput.LisentKey();
-    }
-
-    private void Play()
-    {
-        if (_groundDetector.IsGround == false)
+        if (_userInput.HorizontalInput != 0)
         {
-            _playerAnimation.PlayFall();
-            return;
-        }
-
-        if (_userInput.GetIsJump())
-        {
-            _playerMover.DirectY();
-            _playerAnimation.PlayJump();
-        }
-        else if (_userInput.HorizontalInput == 0f)
-        {
-            _playerMover.StopMoving();
-            _playerAnimation.PlayIdle();
+            UpdateMoveX();
         }
         else
         {
-            _playerMover.SetDirection(_userInput.HorizontalInput);
+            _playerMover.StopMoving();
+        }
+    }
 
-            if (_userInput.ShiftInput)
-            {
-                _playerMover.DirectXFast();
-                _playerAnimation.PlayRun(_userInput);
-            }
-            else
-            {
-                _playerMover.DirectX();
-                _playerAnimation.PlayWalk(_userInput);
-            }
+    private void UpdateMoveX()
+    {
+        if (_isRunning)
+            _playerMover.DirectXFast();
+        else
+            _playerMover.DirectX();
+    }
+
+    private void HandleJump()
+    {
+        if (_groundDetector.IsGround && _isJumping == false) 
+        {
+            _isJumping = true;
+            _playerMover.DirectY();
+            _playerAnimation.PlayJump();
+        }
+    }
+
+    private void HandleMove(float direction)
+    {
+        _playerMover.SetDirection(direction);
+    }
+
+    private void HandleRun(bool isRunning)
+    {
+        _isRunning = isRunning;
+    }
+
+    private void UpdateAnimation()
+    {
+        if (_groundDetector.IsGround)
+        {
+            UpdateAnimationX();
+        }
+        else
+        {
+            if (_isJumping)
+                return;
+
+            _playerAnimation.PlayFall();
+        }
+    }
+
+    private void UpdateAnimationX()
+    {
+        _isJumping = false;
+
+        if (_userInput.HorizontalInput == 0)
+        {
+            _playerAnimation.PlayIdle();
+        }
+        else if (_isRunning)
+        {
+            _playerAnimation.PlayRun(_userInput);
+        }
+        else
+        {
+            _playerAnimation.PlayWalk(_userInput);
         }
     }
 

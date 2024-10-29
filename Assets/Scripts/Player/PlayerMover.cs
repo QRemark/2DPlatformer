@@ -36,7 +36,6 @@ public class PlayerMover : MonoBehaviour
 
     public void DirectY()
     {
-        StopMoving();
         _playerRigidbody.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
     }
 

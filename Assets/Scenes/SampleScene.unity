@@ -341,9 +341,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b66f7508d3541542a3a160a9a4b1d0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _userInput: {fileID: 58495678}
   _playerMover: {fileID: 58495677}
   _playerAnimation: {fileID: 58495676}
+  _userInput: {fileID: 58495678}
   _groundDetector: {fileID: 58495679}
 --- !u!114 &58495676
 MonoBehaviour:
@@ -735,7 +735,7 @@ AudioSource:
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
-  Mute: 1
+  Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128

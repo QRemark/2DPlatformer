@@ -1,37 +1,32 @@
 using UnityEngine;
+using System;
 
 public class UserInput : MonoBehaviour
 {
+    public event Action OnJumpPressed;
+    public event Action<float> OnMovePressed;
+    public event Action<bool> OnRunPressed;
+
     private string _horizontalMoveButtons = "Horizontal";
 
-    private bool _isJump;
-
     private KeyCode _shiftKey = KeyCode.LeftShift;
-
     private KeyCode _spaceKey = KeyCode.Space;
 
     public float HorizontalInput { get; private set; }
 
     public bool ShiftInput { get; private set; }
 
-    public void LisentKey()
+    public void ListenKey()
     {
         HorizontalInput = Input.GetAxis(_horizontalMoveButtons);
+        OnMovePressed?.Invoke(HorizontalInput);
 
-        if(Input.GetKeyDown(_spaceKey))
+        if (Input.GetKeyDown(_spaceKey))
         {
-            _isJump = true;
+            OnJumpPressed?.Invoke();
         }
 
         ShiftInput = Input.GetKey(_shiftKey);
-    }
-
-    public bool GetIsJump() => GetBoolAsTrigger(ref _isJump);
-
-    private bool GetBoolAsTrigger(ref bool value)
-    {
-        bool localValue = value;
-        value = false;
-        return localValue;
+        OnRunPressed?.Invoke(ShiftInput);
     }
 }
