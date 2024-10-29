@@ -1,12 +1,13 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Wallet))]
 public class Collector : MonoBehaviour
 {
-    private int _coinsInPocket = 0;
+    private Wallet _wallet;
 
-    private void ChangeCoinsNumber()
+    private void Awake()
     {
-        _coinsInPocket++;
+        _wallet = GetComponent<Wallet>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -14,7 +15,7 @@ public class Collector : MonoBehaviour
         if (collision.TryGetComponent(out Coin coin))
         {
             coin.Collect();
-            ChangeCoinsNumber();
+            _wallet.ChangeCoinsNumber();
         }
     }
 }

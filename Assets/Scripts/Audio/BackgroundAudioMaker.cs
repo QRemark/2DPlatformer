@@ -8,7 +8,9 @@ public class BackgroundAudioMaker : MonoBehaviour
 
     private float _maxVolume = 1.0f;
     private float _changeVolumeSpeed = 0.1f;
+    private float _minDeltaVolume = 0.1f;
     private float _targetVolume;
+
     private Coroutine _volumeChanger;
 
     private void Awake()
@@ -39,7 +41,7 @@ public class BackgroundAudioMaker : MonoBehaviour
 
     private IEnumerator ChangeVolume()
     {
-        while (Mathf.Abs(_sound.volume - _targetVolume) > 0.1f)
+        while (Mathf.Abs(_sound.volume - _targetVolume) > _minDeltaVolume)
         {
             _sound.volume = Mathf.MoveTowards(_sound.volume, _targetVolume, _changeVolumeSpeed * Time.deltaTime);
             yield return null;

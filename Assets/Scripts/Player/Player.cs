@@ -14,12 +14,14 @@ public class Player : MonoBehaviour
 
     private bool _isRunning;
     private bool _isJumping;
+    private bool _JumpRequest;
+    private bool _isMoving;
 
     private void Awake()
     {
-        _userInput.OnJumpPressed += HandleJump;
-        _userInput.OnMovePressed += HandleMove;
-        _userInput.OnRunPressed += HandleRun;
+        _userInput.Jumped += HandleJump;
+        _userInput.Moved += HandleMove;
+        _userInput.Raced += HandleRun;
     }
 
     private void Update()
@@ -36,9 +38,16 @@ public class Player : MonoBehaviour
 
     private void UpdateMove()
     {
-        if (_userInput.HorizontalInput != 0)
+        if (_JumpRequest && _groundDetector.IsGround)
         {
-            UpdateMoveX();
+            _playerMover.Jump(); 
+            _JumpRequest = false; 
+            _isJumping = true;
+        }
+
+        if (_isMoving)
+        {
+            UpdateMoveHorizontal();
         }
         else
         {
@@ -46,27 +55,33 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void UpdateMoveX()
+    private void UpdateMoveHorizontal()
     {
         if (_isRunning)
-            _playerMover.DirectXFast();
+            _playerMover.MoveFast();
         else
-            _playerMover.DirectX();
+            _playerMover.Move();
     }
 
     private void HandleJump()
     {
         if (_groundDetector.IsGround && _isJumping == false) 
         {
-            _isJumping = true;
-            _playerMover.DirectY();
+            _JumpRequest = true;
             _playerAnimation.PlayJump();
         }
     }
 
+   
     private void HandleMove(float direction)
     {
-        _playerMover.SetDirection(direction);
+        if (_userInput.HorizontalInput != 0)
+        {
+            _playerMover.SetDirection(direction);
+            _isMoving = true;
+        }
+        else
+            _isMoving = false;
     }
 
     private void HandleRun(bool isRunning)
@@ -78,7 +93,7 @@ public class Player : MonoBehaviour
     {
         if (_groundDetector.IsGround)
         {
-            UpdateAnimationX();
+            UpdateAnimationHorizontal();
         }
         else
         {
@@ -89,7 +104,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void UpdateAnimationX()
+    private void UpdateAnimationHorizontal()
     {
         _isJumping = false;
 

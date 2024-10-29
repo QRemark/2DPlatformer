@@ -8,14 +8,13 @@ public class CoinSpawner : MonoBehaviour
     [SerializeField] private List<Transform> _spawnPoints;
 
     private int _poolCapacity = 5;
-    private int _poolMaxSize = 10;
 
-    private CoinPool _coinPool;
+    private CoinPool     _coinPool;
 
     private void Awake()
     {
         _coinPool = gameObject.GetComponent<CoinPool>();
-        _coinPool.Initialize(_prefab, _poolCapacity, _poolMaxSize);
+        _coinPool.Initialize(_prefab, _poolCapacity);
     }
 
     private void Start()
@@ -27,7 +26,7 @@ public class CoinSpawner : MonoBehaviour
     {
         for (int i = 0; i < _spawnPoints.Count; i++)
         {
-            Coin coin = _coinPool.GetCoin();
+            Coin coin = _coinPool.GetObject();
 
             if (coin != null)
             {
@@ -40,6 +39,18 @@ public class CoinSpawner : MonoBehaviour
     public void ReturnCoinInPool(Coin coin)
     {
         coin.OnCollected -= ReturnCoinInPool;
-        _coinPool.ReleaseCoin(coin);
+        _coinPool.ReleaseObject(coin);
     }
+
+#if UNITY_EDITOR
+    [ContextMenu("Refresh Child Array")]
+    private void RefreshChildArray()
+    {
+        int pointCount = transform.childCount;
+        _spawnPoints = new List<Transform>();
+
+        for (int i = 0; i < pointCount; i++)
+            _spawnPoints.Add(transform.GetChild(i));
+    }
+#endif
 }

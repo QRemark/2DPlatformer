@@ -3,11 +3,7 @@ using System;
 
 public class UserInput : MonoBehaviour
 {
-    public event Action OnJumpPressed;
-    public event Action<float> OnMovePressed;
-    public event Action<bool> OnRunPressed;
-
-    private string _horizontalMoveButtons = "Horizontal";
+    private const string _horizontalMoveButtons = "Horizontal";
 
     private KeyCode _shiftKey = KeyCode.LeftShift;
     private KeyCode _spaceKey = KeyCode.Space;
@@ -16,17 +12,21 @@ public class UserInput : MonoBehaviour
 
     public bool ShiftInput { get; private set; }
 
+    public event Action Jumped;
+    public event Action<float> Moved;
+    public event Action<bool> Raced;
+
     public void ListenKey()
     {
         HorizontalInput = Input.GetAxis(_horizontalMoveButtons);
-        OnMovePressed?.Invoke(HorizontalInput);
+        Moved?.Invoke(HorizontalInput);
 
         if (Input.GetKeyDown(_spaceKey))
         {
-            OnJumpPressed?.Invoke();
+            Jumped?.Invoke();
         }
 
         ShiftInput = Input.GetKey(_shiftKey);
-        OnRunPressed?.Invoke(ShiftInput);
+        Raced?.Invoke(ShiftInput);
     }
 }

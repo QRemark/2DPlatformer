@@ -5,5 +5,17 @@ public class EnemyPath : MonoBehaviour
 {
     [SerializeField] private List<Transform> _points; 
 
-    public List<Transform> Points => _points; 
+    public List<Transform> Points => new List<Transform>(_points);
+
+#if UNITY_EDITOR
+    [ContextMenu("Refresh Child Array")]
+    private void RefreshChildArray()
+    {
+        int pointCount = transform.childCount;
+        _points = new List<Transform>();
+
+        for (int i = 0; i < pointCount; i++)
+            _points.Add(transform.GetChild(i));
+    }
+#endif
 }

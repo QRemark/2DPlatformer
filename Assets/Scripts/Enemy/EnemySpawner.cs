@@ -8,14 +8,13 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private List<EnemyPath> _enemyPaths;
 
     private int _poolCapacity = 3;
-    private int _poolMaxSize = 5;
 
     private EnemyPool _enemyPool;
 
     private void Awake()
     {
         _enemyPool = gameObject.GetComponent<EnemyPool>();
-        _enemyPool.Initialize(_prefab, _poolCapacity, _poolMaxSize);
+        _enemyPool.Initialize(_prefab, _poolCapacity);
     }
 
     private void Start()
@@ -27,7 +26,7 @@ public class EnemySpawner : MonoBehaviour
     {
         for (int i = 0; i < _enemyPaths.Count; i++)
         {
-            Enemy enemy = _enemyPool.GetEnemy();
+            Enemy enemy = _enemyPool.GetObject();
             
             if (enemy != null)
             {

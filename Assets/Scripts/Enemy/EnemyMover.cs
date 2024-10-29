@@ -51,7 +51,7 @@ public class EnemyMover : MonoBehaviour
         yield return _cooldown;
         _isWaiting = false;
 
-        _currentPointIndex = (_currentPointIndex +1) % _currentPath.Points.Count;
+        _currentPointIndex = (++_currentPointIndex) % _currentPath.Points.Count;
     }
 
     private bool IsTargetReached(Transform targetPoint)

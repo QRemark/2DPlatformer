@@ -16,7 +16,7 @@ public class PlayerMover : MonoBehaviour
         _playerRigidbody = GetComponent<Rigidbody2D>();
     }
 
-    public void DirectX()
+    public void Move()
     {
         Vector2 velocity = _playerRigidbody.velocity;
 
@@ -25,7 +25,7 @@ public class PlayerMover : MonoBehaviour
         _playerRigidbody.velocity = velocity;
     }
 
-    public void DirectXFast()
+    public void MoveFast()
     {
         Vector2 velocity = _playerRigidbody.velocity;
 
@@ -34,7 +34,7 @@ public class PlayerMover : MonoBehaviour
         _playerRigidbody.velocity = velocity;
     }
 
-    public void DirectY()
+    public void Jump()
     {
         _playerRigidbody.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
     }
