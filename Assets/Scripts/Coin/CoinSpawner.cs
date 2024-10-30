@@ -9,7 +9,7 @@ public class CoinSpawner : MonoBehaviour
 
     private int _poolCapacity = 5;
 
-    private CoinPool     _coinPool;
+    private CoinPool _coinPool;
 
     private void Awake()
     {

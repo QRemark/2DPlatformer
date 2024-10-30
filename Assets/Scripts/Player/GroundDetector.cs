@@ -6,7 +6,7 @@ public class GroundDetector : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.TryGetComponent<Rigidbody2D>(out _))
+        if (collision.gameObject.TryGetComponent<JumpPlatform>(out _))
         {
             IsGround = true;
         }
@@ -14,7 +14,7 @@ public class GroundDetector : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject.TryGetComponent<Rigidbody2D>(out _))
+        if (collision.gameObject.TryGetComponent<JumpPlatform>(out _))
         {
             IsGround = false;
         }

@@ -46,13 +46,9 @@ public class Player : MonoBehaviour
         }
 
         if (_isMoving)
-        {
             UpdateMoveHorizontal();
-        }
         else
-        {
             _playerMover.StopMoving();
-        }
     }
 
     private void UpdateMoveHorizontal()
@@ -72,7 +68,6 @@ public class Player : MonoBehaviour
         }
     }
 
-   
     private void HandleMove(float direction)
     {
         if (_userInput.HorizontalInput != 0)
@@ -92,9 +87,7 @@ public class Player : MonoBehaviour
     private void UpdateAnimation()
     {
         if (_groundDetector.IsGround)
-        {
             UpdateAnimationHorizontal();
-        }
         else
         {
             if (_isJumping)
@@ -109,17 +102,11 @@ public class Player : MonoBehaviour
         _isJumping = false;
 
         if (_userInput.HorizontalInput == 0)
-        {
             _playerAnimation.PlayIdle();
-        }
         else if (_isRunning)
-        {
             _playerAnimation.PlayRun(_userInput);
-        }
         else
-        {
             _playerAnimation.PlayWalk(_userInput);
-        }
     }
 
     private void FlipSprite()

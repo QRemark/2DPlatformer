@@ -50,7 +50,9 @@ public class PlayerMover : MonoBehaviour
     public void StopMoving()
     {
         Vector2 velocity = _playerRigidbody.velocity;
+
         velocity.x = 0;
+
         _playerRigidbody.velocity = velocity;
     }
 }
