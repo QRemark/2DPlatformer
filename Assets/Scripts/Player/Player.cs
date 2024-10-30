@@ -14,7 +14,7 @@ public class Player : MonoBehaviour
 
     private bool _isRunning;
     private bool _isJumping;
-    private bool _JumpRequest;
+    private bool _jumpRequest;
     private bool _isMoving;
 
     private void Awake()
@@ -38,10 +38,10 @@ public class Player : MonoBehaviour
 
     private void UpdateMove()
     {
-        if (_JumpRequest && _groundDetector.IsGround)
+        if (_jumpRequest && _groundDetector.IsGround)
         {
             _playerMover.Jump(); 
-            _JumpRequest = false; 
+            _jumpRequest = false; 
             _isJumping = true;
         }
 
@@ -63,7 +63,7 @@ public class Player : MonoBehaviour
     {
         if (_groundDetector.IsGround && _isJumping == false) 
         {
-            _JumpRequest = true;
+            _jumpRequest = true;
             _playerAnimation.PlayJump();
         }
     }
