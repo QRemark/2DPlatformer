@@ -1,20 +1,20 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody), typeof(EnemyMover))]
+[RequireComponent(typeof(Rigidbody2D), typeof(EnemyMover))]
 public class Enemy : MonoBehaviour
 {
-    private Rigidbody _rigidbody;
+    private Rigidbody2D _rigidbody;
     private EnemyMover _enemyMover;
 
     private void Awake()
     {
-        _rigidbody = GetComponent<Rigidbody>();
+        _rigidbody = GetComponent<Rigidbody2D>();
         _enemyMover = GetComponent<EnemyMover>();
     }
 
     private void Update()
     {
-        _enemyMover.MoveToNextPoint();
+        _enemyMover.Move(_rigidbody);
     }
 
     public void SetPath(EnemyPath path)
@@ -24,7 +24,7 @@ public class Enemy : MonoBehaviour
 
     public void ResetSpeed()
     {
-        _rigidbody.velocity = Vector3.zero;
+        _rigidbody.velocity = Vector2.zero;
     }
 }
 
