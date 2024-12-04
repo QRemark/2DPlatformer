@@ -56,4 +56,10 @@ public class PlayerAnimation : MonoBehaviour
         SetGrounded(true);
         SetSpeed(userInput.HorizontalInput * _animatorSpeedScaler);
     }
+
+    public void PlayShoot()
+    {
+        SetGrounded(true);
+        //_animator.SetTrigger(PlayerAnimatorData.Params.JumpTrigger); тут триггер что производим выстрел
+    }
 }

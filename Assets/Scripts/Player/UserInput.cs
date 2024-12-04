@@ -7,10 +7,12 @@ public class UserInput : MonoBehaviour
 
     private KeyCode _shiftKey = KeyCode.LeftShift;
     private KeyCode _spaceKey = KeyCode.Space;
+    private KeyCode _fireKey = KeyCode.E;
 
     public event Action Jumped;
     public event Action<float> Moved;
     public event Action<bool> Raced;
+    public event Action Fired;
 
     public float HorizontalInput { get; private set; }
 
@@ -28,5 +30,10 @@ public class UserInput : MonoBehaviour
 
         ShiftInput = Input.GetKey(_shiftKey);
         Raced?.Invoke(ShiftInput);
+
+        if (Input.GetKeyDown(_fireKey))
+        {
+            Fired?.Invoke();
+        }
     }
 }

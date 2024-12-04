@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     [SerializeField] private PlayerAnimation _playerAnimation;
     [SerializeField] private UserInput _userInput;
     [SerializeField] private GroundDetector _groundDetector;
+    [SerializeField] private PlayerWeapon _weapon;
 
     private Quaternion _rotateLeft = Quaternion.Euler(0, 180, 0);
     private Quaternion _rotateRight = Quaternion.identity;
@@ -16,12 +17,14 @@ public class Player : MonoBehaviour
     private bool _isJumping;
     private bool _jumpRequest;
     private bool _isMoving;
+    private bool _isShooting;
 
     private void Awake()
     {
         _userInput.Jumped += HandleJump;
         _userInput.Moved += HandleMove;
         _userInput.Raced += HandleRun;
+        _userInput.Fired += HandleFire;
     }
 
     private void Update()
@@ -57,6 +60,18 @@ public class Player : MonoBehaviour
             _playerMover.MoveFast();
         else
             _playerMover.Move();
+    }
+
+    private void HandleFire()
+    {
+        if (_groundDetector.IsGround && _isJumping == false && _userInput.HorizontalInput == 0)
+        {
+            _isShooting=true;
+            _weapon.Shoot();
+            Debug.Log("Стрельба произведена в классе плеер!");
+        }
+        else
+            _isShooting = false;
     }
 
     private void HandleJump()
@@ -101,7 +116,13 @@ public class Player : MonoBehaviour
     {
         _isJumping = false;
 
-        if (_userInput.HorizontalInput == 0)
+        if (_userInput.HorizontalInput == 0 && _isShooting)///доделать перетащить фальс куда нибудь
+        {
+            _playerAnimation.PlayShoot(); 
+            Debug.Log("Анимация стрельбы запущена в плеер!");
+            _isShooting = false; 
+        }
+        else if(_userInput.HorizontalInput == 0)
             _playerAnimation.PlayIdle();
         else if (_isRunning)
             _playerAnimation.PlayRun(_userInput);
@@ -116,9 +137,4 @@ public class Player : MonoBehaviour
         else if (_userInput.HorizontalInput > 0.0f)
             transform.localRotation = _rotateRight;
     }
-
-    //private void OnTriggerEnter2D(Collider other)
-    //{
-        
-    //}
 }
