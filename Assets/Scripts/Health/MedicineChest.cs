@@ -6,8 +6,9 @@ public class MedicineChest : MonoBehaviour
 {
     public event Action<MedicineChest> OnCollected;
 
-    public void Collect()
+    public void Collect(out float healthRange)
     {
         OnCollected?.Invoke(this);
+        healthRange = 10f;
     }
 }

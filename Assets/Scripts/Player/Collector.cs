@@ -1,15 +1,15 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Wallet), typeof(HealthContainer))]
+[RequireComponent(typeof(Wallet), typeof(PlayerHealthContainer))]
 public class Collector : MonoBehaviour
 {
     private Wallet _wallet;
-    private HealthContainer _healthContainer;
+    private PlayerHealthContainer _healthContainer;
 
     private void Awake()
     {
         _wallet = GetComponent<Wallet>();
-        _healthContainer = GetComponent<HealthContainer>();
+        _healthContainer = GetComponent<PlayerHealthContainer>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -31,8 +31,8 @@ public class Collector : MonoBehaviour
     {
         if (collision.TryGetComponent(out MedicineChest health))
         {
-            health.Collect();
-            _healthContainer.IncreaseNumber();
+            health.Collect(out float healtRange);
+            _healthContainer.IncreaseNumber(healtRange);
         }
     }
 }

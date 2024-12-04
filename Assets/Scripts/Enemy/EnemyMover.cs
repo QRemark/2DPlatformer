@@ -1,15 +1,15 @@
 using System.Collections;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class EnemyMover : MonoBehaviour
 {
     [SerializeField] private float _speed = 5.0f;
-    [SerializeField] private float _minDistancePoint = 0.5f;
-    [SerializeField] private float _minDistancePlayer = 1.0f;
-    [SerializeField] private Rigidbody2D _target;
-    //[SerializeField] private Player _target;
+    [SerializeField] private float _minDistancePoint = 1.5f;
+    //[SerializeField] private float _minDistancePlayer = 1.0f;
 
-    //private Transform _currentTarget;
+    private Player _player;
+    private Rigidbody2D _enemyBody;
 
     private EnemyPath _currentPath;
 
@@ -18,12 +18,15 @@ public class EnemyMover : MonoBehaviour
     private int _currentPointIndex;
 
     private float _waitOnPoint = 5.0f;
+    private float _enemyRun = 1.5f;
 
     private bool _isWaiting = false;
+    private bool _isPlayerInSight = false;
 
     private void Awake()
     {
         _cooldown = new WaitForSeconds(_waitOnPoint);
+        _enemyBody = GetComponent<Rigidbody2D>();
     }
 
     public void SetPath(EnemyPath enemyPath)
@@ -33,14 +36,17 @@ public class EnemyMover : MonoBehaviour
         transform.position = _currentPath.Points[_currentPointIndex].position;
     }
 
-    public void Move(Rigidbody2D rigidbody)
-    {
-        //Transform playerPoint = _target.transform;
+    public Player GetPlayer() => _player;
 
-        if (IsTargetReached(_target.transform, _minDistancePlayer))
+    public void SetPlayer(Player target) => _player = target;
+
+    //public void Move()
+    private void Update()
+    {
+        if (_isPlayerInSight && _player != null)
         {
-            Vector2 direction = (_target.position - (Vector2)transform.position).normalized;
-            rigidbody.velocity = direction * _speed * 1.5f;
+            MoveToPlayer();
+            Debug.Log("Иду за игроком");
         }
         else
         {
@@ -48,16 +54,58 @@ public class EnemyMover : MonoBehaviour
         }
     }
 
+    public void WalkPlayerEnterSight()
+    {
+        Debug.Log("Вижу игрока");
+        _isPlayerInSight = true;
+    }
+
+    public void WalkPlayerExitSight()
+    {
+        Debug.Log("я не вижу игрока");
+        _isPlayerInSight = false;
+        //_player = null;
+        _enemyBody.velocity = Vector2.zero;
+        _currentPointIndex = FindNearestPointIndex();
+    }
+
+    private int FindNearestPointIndex()
+    {
+        if (_currentPath == null || _currentPath.Points.Count == 0)
+            return 0;
+
+        float minDistance = float.MaxValue;
+        int nearestIndex = 0;
+
+        for (int i = 0; i < _currentPath.Points.Count; i++)
+        {
+            float distance = Vector2.Distance(transform.position, _currentPath.Points[i].position);
+            if (distance < minDistance)
+            {
+                minDistance = distance;
+                nearestIndex = i;
+            }
+        }
+
+        return nearestIndex;
+    }
+
+
+    private void MoveToPlayer()
+    {
+        Vector2 direction = ((Vector2)_player.transform.position - (Vector2)transform.position).normalized;
+        _enemyBody.velocity = direction * _speed * _enemyRun;
+    }
+
     private void MoveToNextPoint()
     {
-        if (_isWaiting || _currentPath == null || _currentPath.Points.Count == 0) 
+        if (_isWaiting || _currentPath == null || _currentPath.Points.Count == 0)
             return;
 
         Transform targetPoint = _currentPath.Points[_currentPointIndex];
 
         float step = _speed * Time.deltaTime;
 
-        //transform.position = Vector3.MoveTowards(transform.position, targetPoint.position, step);
         transform.position = Vector2.MoveTowards(transform.position, targetPoint.position, step);
 
         if (IsTargetReached(targetPoint, _minDistancePoint))
@@ -66,6 +114,8 @@ public class EnemyMover : MonoBehaviour
 
     private IEnumerator WaitBeforeMove()
     {
+        //if (_isWaiting) yield break;///
+
         _isWaiting = true;
         yield return _cooldown;
         _isWaiting = false;

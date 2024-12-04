@@ -116,4 +116,9 @@ public class Player : MonoBehaviour
         else if (_userInput.HorizontalInput > 0.0f)
             transform.localRotation = _rotateRight;
     }
+
+    //private void OnTriggerEnter2D(Collider other)
+    //{
+        
+    //}
 }
