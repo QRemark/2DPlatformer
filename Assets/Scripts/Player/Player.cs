@@ -70,6 +70,8 @@ public class Player : MonoBehaviour
             _weapon.Shoot();
             Debug.Log("Стрельба произведена в классе плеер!");
         }
+        //else if(_isShooting == true)
+        //    _isShooting = false;
         else
             _isShooting = false;
     }

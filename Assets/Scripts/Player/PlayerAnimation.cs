@@ -60,6 +60,6 @@ public class PlayerAnimation : MonoBehaviour
     public void PlayShoot()
     {
         SetGrounded(true);
-        //_animator.SetTrigger(PlayerAnimatorData.Params.JumpTrigger); тут триггер что производим выстрел
+        _animator.SetTrigger(PlayerAnimatorData.Params.ShootTrigger); //тут триггер что производим выстрел
     }
 }
