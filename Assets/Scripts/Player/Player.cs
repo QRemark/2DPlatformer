@@ -103,6 +103,12 @@ public class Player : MonoBehaviour
 
     private void UpdateAnimation()
     {
+        if (_isShooting)
+        {
+            UpdateShoot(); 
+            return; 
+        }
+
         if (_groundDetector.IsGround)
             UpdateAnimationHorizontal();
         else
@@ -114,17 +120,31 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void UpdateShoot()
+    {
+        if (_userInput.HorizontalInput == 0)
+        {
+            _playerAnimation.PlayShoot(); 
+            Debug.Log("Анимация стрелбы запущена в UpdateShoot!");
+            _isShooting = false;
+        }
+        else
+        {
+            _isShooting = false;
+        }
+    }
+
     private void UpdateAnimationHorizontal()
     {
         _isJumping = false;
 
-        if (_userInput.HorizontalInput == 0 && _isShooting)///доделать перетащить фальс куда нибудь
-        {
-            _playerAnimation.PlayShoot(); 
-            Debug.Log("Анимация стрельбы запущена в плеер!");
-            _isShooting = false; 
-        }
-        else if(_userInput.HorizontalInput == 0)
+        //if (_userInput.HorizontalInput == 0 && _isShooting)///доделать перетащить фальс куда нибудь
+        //{
+        //    _playerAnimation.PlayShoot(); 
+        //    Debug.Log("Анимация стрельбы запущена в плеер!");
+        //    _isShooting = false; 
+        //}
+        if(_userInput.HorizontalInput == 0)
             _playerAnimation.PlayIdle();
         else if (_isRunning)
             _playerAnimation.PlayRun(_userInput);
