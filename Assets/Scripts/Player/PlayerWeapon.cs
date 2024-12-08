@@ -1,23 +1,38 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerWeapon : MonoBehaviour
 {
     [SerializeField] private float _damage = 5f;
-    [SerializeField] private float _range = 20f;
+    [SerializeField] private float _range = 18f;
     [SerializeField] private Transform _shooterPoint;
 
     private Transform _playerTransform;
+
+    private float _shootCooldown = 1f;
+    private float _nextShootTime = 0f;
 
     private void Awake()
     {
         _playerTransform = transform;
     }
- 
-    public void Shoot()
+
+    public void TryShoot(out bool isCooldown)
     {
-        //Vector2 shootDirection = _playerTransform.localRotation == Quaternion.Euler(0, 180, 0) ? Vector2.left : Vector2.right;
+        if (Time.time >= _nextShootTime)
+        {
+            isCooldown = false;
+            Shoot();
+            _nextShootTime = Time.time + _shootCooldown;
+        }
+        else
+        {
+            isCooldown = true;
+            Debug.Log("Пушка на перезарядке");
+        }
+    }
+
+    private void Shoot()
+    {
 
         Vector2 shootDirection = _playerTransform.right;
 
@@ -25,7 +40,6 @@ public class PlayerWeapon : MonoBehaviour
 
         Debug.DrawRay(_shooterPoint.position, shootDirection * _range, Color.red, 3.5f);
 
-        //CapsuleCollider2D capsuleCollider = hit.collider.GetComponent<CapsuleCollider2D>();
 
         if (hit.collider != null)
         {
@@ -37,17 +51,17 @@ public class PlayerWeapon : MonoBehaviour
                 if (enemyHealth != null)
                 {
                     enemyHealth.ReduceNumber(_damage);
-                    Debug.Log("Рейкаст попал по телу врага и нанес урон");
+                    Debug.Log("Рейкас попал по телу врага и нанес урон");
                 }
             }
             else
             {
-                Debug.Log("Рейкаст попал, но не в CapsuleCollider2D");
+                Debug.Log("Рейкас попал, но не в CapsuleCollider2D");
             }
         }
         else
         {
-            Debug.Log("Рейкаст никуда не попал");
+            Debug.Log("Рейкас никуда не попал");
         }
 
     }

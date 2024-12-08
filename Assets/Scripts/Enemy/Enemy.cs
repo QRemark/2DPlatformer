@@ -1,35 +1,49 @@
 using UnityEngine;
 
-//[RequireComponent(typeof(Rigidbody2D), typeof(EnemyMover))]
 public class Enemy : MonoBehaviour
 {
-    //private Rigidbody2D _rigidbody;
     private EnemyMover _enemyMover;
+    private EnemyWeapon _enemyWeapon;
+    private Player _player;
 
     private void Awake()
     {
-        //rigidbody = GetComponent<Rigidbody2D>();
         _enemyMover = GetComponent<EnemyMover>();
+        _enemyWeapon = GetComponent<EnemyWeapon>();
+        EnemyEye eye = GetComponentInChildren<EnemyEye>();
+        eye.OnEnterSight += HandleEnterSight;
+        eye.OnExitSight += HandleExitSight;
     }
 
-    //private void Update()
-    //{
-    //    //_enemyMover.Move();
-    //}
+    public void SetPlayerTarget(Player player)
+    {
+        _player = player;
+        _enemyMover.SetPlayer(player);
+    }
 
     public void SetPath(EnemyPath path)
     {
         _enemyMover.SetPath(path);
     }
 
-    public void SetPlayerTarget(Player player)
+    private void HandleEnterSight(Collider2D collider)
     {
-        _enemyMover.SetPlayer(player);
+        if (collider.gameObject == _player.gameObject)
+        {
+            Debug.Log("Враг распознал игрока");
+            _enemyMover.WalkPlayerEnterSight();
+            _enemyWeapon.StartAttack();
+        }
     }
 
-    public void ResetSpeed()
+    private void HandleExitSight(Collider2D collider)
     {
-        //_rigidbody.velocity = Vector2.zero;
+        if (collider.gameObject == _player.gameObject)
+        {
+            Debug.Log("Игрок вышел из зоны видимости врага");
+            _enemyMover.WalkPlayerExitSight();
+            _enemyWeapon.StopAttack();
+        }
     }
 }
 

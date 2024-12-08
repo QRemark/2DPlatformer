@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerAnimation : MonoBehaviour
 {
     private Animator _animator;
+    private PlayerWeaponAnimation _weaponAnimation;
 
     private float _animatorSpeedScaler = 2.0f;
     private float _speed;
@@ -14,6 +15,7 @@ public class PlayerAnimation : MonoBehaviour
     private void Awake()
     {
         _animator = GetComponent<Animator>();
+        _weaponAnimation = GetComponentInChildren<PlayerWeaponAnimation>();
     }
 
     private void SetGrounded(bool isGrounded)
@@ -60,6 +62,7 @@ public class PlayerAnimation : MonoBehaviour
     public void PlayShoot()
     {
         SetGrounded(true);
-        _animator.SetTrigger(PlayerAnimatorData.Params.ShootTrigger); //тут триггер что производим выстрел
+        _animator.SetTrigger(PlayerAnimatorData.Params.ShootTrigger);
+        _weaponAnimation?.PlayLaserAnimation();
     }
 }

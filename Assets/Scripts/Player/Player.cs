@@ -18,6 +18,7 @@ public class Player : MonoBehaviour
     private bool _jumpRequest;
     private bool _isMoving;
     private bool _isShooting;
+    private bool _isCooldown = false;
 
     private void Awake()
     {
@@ -67,8 +68,9 @@ public class Player : MonoBehaviour
         if (_groundDetector.IsGround && _isJumping == false && _userInput.HorizontalInput == 0)
         {
             _isShooting=true;
-            _weapon.Shoot();
-            Debug.Log("Стрельба произведена в классе плеер!");
+            _weapon.TryShoot(out bool isCooldown);
+            _isCooldown=isCooldown;
+            Debug.Log("попытка Стрельба произведена в классе плеер!");
         }
         //else if(_isShooting == true)
         //    _isShooting = false;
@@ -103,7 +105,7 @@ public class Player : MonoBehaviour
 
     private void UpdateAnimation()
     {
-        if (_isShooting)
+        if (_isShooting == true && _isCooldown == false)
         {
             UpdateShoot(); 
             return; 
