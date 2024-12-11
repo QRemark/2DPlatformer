@@ -35,8 +35,7 @@ public class EnemyWeapon : MonoBehaviour
 
         if (distance <= _attackRadius)
         {
-            Debug.Log("Враг наносит урон игроку");
-            _playerHealth.ReduceNumber(_attckRange);
+            _playerHealth.ReducePlayerHealth(_attckRange);
             _nextAttackTime = Time.time + _attackColldown;
         }
     }

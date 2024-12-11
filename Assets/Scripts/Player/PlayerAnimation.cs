@@ -10,8 +10,6 @@ public class PlayerAnimation : MonoBehaviour
     private float _animatorSpeedScaler = 2.0f;
     private float _speed;
 
-    private bool _isGrounded;
-
     private void Awake()
     {
         _animator = GetComponent<Animator>();
@@ -20,7 +18,6 @@ public class PlayerAnimation : MonoBehaviour
 
     private void SetGrounded(bool isGrounded)
     {
-        _isGrounded = isGrounded;
         _animator.SetBool(PlayerAnimatorData.Params.IsGrounded, isGrounded);
     }
 

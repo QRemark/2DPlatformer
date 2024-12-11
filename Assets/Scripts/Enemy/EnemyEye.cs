@@ -8,13 +8,11 @@ public class EnemyEye : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Что-то вошло в поле зрения");
         OnEnterSight?.Invoke(collision);
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        Debug.Log("Что-то вышло из поля зрения");
         OnExitSight?.Invoke(collision);
     }
 }

@@ -6,7 +6,6 @@ public class EnemyMover : MonoBehaviour
 {
     [SerializeField] private float _speed = 5.0f;
     [SerializeField] private float _minDistancePoint = 1.5f;
-    //[SerializeField] private float _minDistancePlayer = 1.0f;
 
     private Player _player;
     private Rigidbody2D _enemyBody;
@@ -29,6 +28,14 @@ public class EnemyMover : MonoBehaviour
         _enemyBody = GetComponent<Rigidbody2D>();
     }
 
+    private void Update()
+    {
+        if (_isPlayerInSight && _player != null)
+            MoveToPlayer();
+        else
+            MoveToNextPoint();
+    }
+
     public void SetPath(EnemyPath enemyPath)
     {
         _currentPath = enemyPath;
@@ -40,31 +47,11 @@ public class EnemyMover : MonoBehaviour
 
     public void SetPlayer(Player target) => _player = target;
 
-    //public void Move()
-    private void Update()
-    {
-        if (_isPlayerInSight && _player != null)
-        {
-            MoveToPlayer();
-            Debug.Log("Иду за игроком");
-        }
-        else
-        {
-            MoveToNextPoint();
-        }
-    }
-
-    public void WalkPlayerEnterSight()
-    {
-        Debug.Log("Вижу игрока");
-        _isPlayerInSight = true;
-    }
+    public void WalkPlayerEnterSight() => _isPlayerInSight = true;
 
     public void WalkPlayerExitSight()
     {
-        Debug.Log("я не вижу игрока");
         _isPlayerInSight = false;
-        //_player = null;
         _enemyBody.velocity = Vector2.zero;
         _currentPointIndex = FindNearestPointIndex();
     }
@@ -75,11 +62,13 @@ public class EnemyMover : MonoBehaviour
             return 0;
 
         float minDistance = float.MaxValue;
+
         int nearestIndex = 0;
 
         for (int i = 0; i < _currentPath.Points.Count; i++)
         {
             float distance = Vector2.Distance(transform.position, _currentPath.Points[i].position);
+
             if (distance < minDistance)
             {
                 minDistance = distance;
@@ -89,7 +78,6 @@ public class EnemyMover : MonoBehaviour
 
         return nearestIndex;
     }
-
 
     private void MoveToPlayer()
     {
@@ -114,8 +102,6 @@ public class EnemyMover : MonoBehaviour
 
     private IEnumerator WaitBeforeMove()
     {
-        //if (_isWaiting) yield break;///
-
         _isWaiting = true;
         yield return _cooldown;
         _isWaiting = false;

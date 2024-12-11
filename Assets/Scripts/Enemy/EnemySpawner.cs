@@ -9,8 +9,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private Player _palyerTarget;
 
     private int _poolCapacity = 3;
-
-    //private EnemyMover _enemyMover;
+    private int _startPoint  = 0;
 
     private EnemyPool _enemyPool;
 
@@ -30,20 +29,12 @@ public class EnemySpawner : MonoBehaviour
         for (int i = 0; i < _enemyPaths.Count; i++)
         {
             Enemy enemy = _enemyPool.GetObject();
-            
+
             if (enemy != null)
             {
                 enemy.SetPath(_enemyPaths[i]);
-                enemy.transform.position = _enemyPaths[i].Points[0].position;
-                //enemy.ResetSpeed();
-
-                //_enemyMover = enemy.GetComponent<EnemyMover>();
-                //if (_enemyMover != null)
-                //{
-                    Debug.Log("÷ель у врага задана");
-                    enemy.SetPlayerTarget(_palyerTarget);
-
-                //}
+                enemy.transform.position = _enemyPaths[i].Points[_startPoint].position;
+                enemy.SetPlayerTarget(_palyerTarget);
             }
         }
     }

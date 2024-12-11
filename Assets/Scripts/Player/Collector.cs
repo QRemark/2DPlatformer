@@ -32,7 +32,7 @@ public class Collector : MonoBehaviour
         if (collision.TryGetComponent(out MedicineChest health))
         {
             health.Collect(out float healtRange);
-            _healthContainer.IncreaseNumber(healtRange);
+            _healthContainer.IncreasePlayerHealth(healtRange);
         }
     }
 }

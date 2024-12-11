@@ -30,7 +30,6 @@ public class Enemy : MonoBehaviour
     {
         if (collider.gameObject == _player.gameObject)
         {
-            Debug.Log("Враг распознал игрока");
             _enemyMover.WalkPlayerEnterSight();
             _enemyWeapon.StartAttack();
         }
@@ -40,7 +39,6 @@ public class Enemy : MonoBehaviour
     {
         if (collider.gameObject == _player.gameObject)
         {
-            Debug.Log("Игрок вышел из зоны видимости врага");
             _enemyMover.WalkPlayerExitSight();
             _enemyWeapon.StopAttack();
         }

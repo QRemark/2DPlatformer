@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[RequireComponent(typeof(UserInput), typeof(PlayerMover))]
+[RequireComponent(typeof(UserInput), typeof(PlayerMover), typeof(PlayerWeapon))]
 [RequireComponent(typeof(PlayerAnimation), typeof(GroundDetector), typeof(Collector))]
 public class Player : MonoBehaviour
 {
@@ -70,10 +70,7 @@ public class Player : MonoBehaviour
             _isShooting=true;
             _weapon.TryShoot(out bool isCooldown);
             _isCooldown=isCooldown;
-            Debug.Log("попытка Стрельба произведена в классе плеер!");
         }
-        //else if(_isShooting == true)
-        //    _isShooting = false;
         else
             _isShooting = false;
     }
@@ -127,7 +124,6 @@ public class Player : MonoBehaviour
         if (_userInput.HorizontalInput == 0)
         {
             _playerAnimation.PlayShoot(); 
-            Debug.Log("Анимация стрелбы запущена в UpdateShoot!");
             _isShooting = false;
         }
         else
@@ -140,12 +136,6 @@ public class Player : MonoBehaviour
     {
         _isJumping = false;
 
-        //if (_userInput.HorizontalInput == 0 && _isShooting)///доделать перетащить фальс куда нибудь
-        //{
-        //    _playerAnimation.PlayShoot(); 
-        //    Debug.Log("Анимация стрельбы запущена в плеер!");
-        //    _isShooting = false; 
-        //}
         if(_userInput.HorizontalInput == 0)
             _playerAnimation.PlayIdle();
         else if (_isRunning)

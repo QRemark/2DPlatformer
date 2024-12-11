@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class Pool<T> : MonoBehaviour where T : MonoBehaviour
 {
     private Queue<T> _deactiveObjects;

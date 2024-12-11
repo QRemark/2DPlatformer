@@ -5,7 +5,6 @@ public class EnemyPath : MonoBehaviour
 {
     [SerializeField] private List<Transform> _points; 
 
-//public List<Transform> Points => new List<Transform>(_points);
     public IReadOnlyList<Transform> Points => _points.AsReadOnly();
 
 #if UNITY_EDITOR

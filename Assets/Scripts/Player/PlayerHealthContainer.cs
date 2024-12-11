@@ -4,15 +4,13 @@ public class PlayerHealthContainer : MonoBehaviour
 {
     private float _baseHealth = 100;
 
-    public void IncreaseNumber(float healthRange)
+    public void IncreasePlayerHealth(float healthRange)
     {
         _baseHealth += healthRange;
-        Debug.Log(_baseHealth);
     }
 
-    public void ReduceNumber(float attackRange)
+    public void ReducePlayerHealth(float attackRange)
     {
         _baseHealth -= attackRange;
-        Debug.Log(_baseHealth);
     }
 }
