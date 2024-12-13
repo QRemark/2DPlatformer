@@ -2,13 +2,16 @@ using System;
 using UnityEngine;
 
 [RequireComponent(typeof(CircleCollider2D))]
-public class MedicineChest : MonoBehaviour
+public class MedicineChest : MonoBehaviour, ICollectible
 {
-    public event Action<MedicineChest> OnCollected;
+    public event Action<ICollectible> OnCollected;
 
-    public void Collect(out float healthRange)
+    private float _healthRange = 10f;
+
+    public void Collect()
     {
         OnCollected?.Invoke(this);
-        healthRange = 10f;
     }
+
+    public float GetHealthRange() => _healthRange;
 }

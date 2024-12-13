@@ -14,25 +14,20 @@ public class Collector : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        MetCoin(collision);
-        MetMedicineChest(collision);
-    }
-
-    private void MetCoin(Collider2D collision)
-    {
-        if (collision.TryGetComponent(out Coin coin))
+        if(collision.TryGetComponent<ICollectible>(out var collectible)) //var
         {
-            coin.Collect();
-            _wallet.ChangeCoinsNumber();
-        }
-    }
+            collectible.Collect();
 
-    private void MetMedicineChest(Collider2D collision)
-    {
-        if (collision.TryGetComponent(out MedicineChest health))
-        {
-            health.Collect(out float healtRange);
-            _healthContainer.IncreasePlayerHealth(healtRange);
+            if(collectible is Coin)
+            {
+                _wallet.ChangeCoinsNumber();
+            }
+            else if (collectible is MedicineChest medicineChest)
+            {
+                float healtRange = medicineChest.GetHealthRange();
+                _healthContainer.IncreasePlayerHealth(healtRange);
+            }
+            
         }
     }
 }

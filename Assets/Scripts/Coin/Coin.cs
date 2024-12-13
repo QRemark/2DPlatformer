@@ -2,9 +2,9 @@ using System;
 using UnityEngine;
 
 [RequireComponent(typeof(CircleCollider2D))]
-public class Coin : MonoBehaviour
+public class Coin : MonoBehaviour, ICollectible
 {
-    public event Action<Coin> OnCollected;
+    public event Action<ICollectible> OnCollected;
 
     public void Collect()
     {
