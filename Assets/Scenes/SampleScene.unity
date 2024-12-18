@@ -166,14 +166,14 @@ GameObject:
   - component: {fileID: 58495673}
   - component: {fileID: 58495672}
   - component: {fileID: 58495671}
+  - component: {fileID: 58495683}
+  - component: {fileID: 58495675}
   - component: {fileID: 58495678}
   - component: {fileID: 58495677}
   - component: {fileID: 58495676}
-  - component: {fileID: 58495675}
   - component: {fileID: 58495679}
   - component: {fileID: 58495680}
   - component: {fileID: 58495681}
-  - component: {fileID: 58495683}
   - component: {fileID: 58495684}
   m_Layer: 0
   m_Name: Player
@@ -3447,7 +3447,7 @@ MonoBehaviour:
   - {fileID: 1807274784}
   - {fileID: 1658081290}
   - {fileID: 747434404}
-  _palyerTarget: {fileID: 58495675}
+  _playerTarget: {fileID: 58495683}
 --- !u!4 &1858343079
 Transform:
   m_ObjectHideFlags: 0

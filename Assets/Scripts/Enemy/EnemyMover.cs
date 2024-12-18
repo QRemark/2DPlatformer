@@ -7,7 +7,8 @@ public class EnemyMover : MonoBehaviour
     [SerializeField] private float _speed = 5.0f;
     [SerializeField] private float _minDistancePoint = 1.5f;
 
-    private Player _player;
+    //private Player _player;
+    private ITargetable _target;
     private Rigidbody2D _enemyBody;
 
     private EnemyPath _currentPath;
@@ -30,7 +31,8 @@ public class EnemyMover : MonoBehaviour
 
     private void Update()
     {
-        if (_isPlayerInSight && _player != null)
+        //if (_isPlayerInSight && _player != null)
+        if (_isPlayerInSight && _target != null)
             MoveToPlayer();
         else
             MoveToNextPoint();
@@ -43,9 +45,13 @@ public class EnemyMover : MonoBehaviour
         transform.position = _currentPath.Points[_currentPointIndex].position;
     }
 
-    public Player GetPlayer() => _player;
+    //public Player GetPlayer() => _player;
 
-    public void SetPlayer(Player target) => _player = target;
+    //public void SetPlayer(Player target) => _player = target;
+
+    public ITargetable GetPlayer() => _target;
+
+    public void SetTarget(ITargetable target) => _target = target;
 
     public void WalkPlayerEnterSight() => _isPlayerInSight = true;
 
@@ -81,7 +87,8 @@ public class EnemyMover : MonoBehaviour
 
     private void MoveToPlayer()
     {
-        Vector2 direction = ((Vector2)_player.transform.position - (Vector2)transform.position).normalized;
+        //Vector2 direction = ((Vector2)_player.transform.position - (Vector2)transform.position).normalized;
+        Vector2 direction = ((Vector2)_target.Transform.position - (Vector2)transform.position).normalized;
         _enemyBody.velocity = direction * _speed * _enemyRun;
     }
 

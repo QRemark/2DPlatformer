@@ -4,7 +4,9 @@ public class Enemy : MonoBehaviour
 {
     private EnemyMover _enemyMover;
     private EnemyWeapon _enemyWeapon;
-    private Player _player;
+    //private Player _player;
+
+    private ITargetable _target;
 
     private void Awake()
     {
@@ -15,10 +17,13 @@ public class Enemy : MonoBehaviour
         eye.OnExitSight += HandleExitSight;
     }
 
-    public void SetPlayerTarget(Player player)
+    public void SetPlayerTarget(ITargetable target)
     {
-        _player = player;
-        _enemyMover.SetPlayer(player);
+        //_target = player;
+        //_enemyMover.SetPlayer(player);
+
+        _target = target;
+        _enemyMover.SetTarget(target);
     }
 
     public void SetPath(EnemyPath path)
@@ -28,16 +33,28 @@ public class Enemy : MonoBehaviour
 
     private void HandleEnterSight(Collider2D collider)
     {
-        if (collider.gameObject == _player.gameObject)
+        //if (_target == null)
+        //{
+        //    Debug.LogError("Target is not set for the enemy!");
+        //    return;
+        //}
+        //if (collider.gameObject == _player.gameObject)
+        if (collider.transform == _target.Transform)
         {
             _enemyMover.WalkPlayerEnterSight();
             _enemyWeapon.StartAttack();
         }
     }
 
+    //private void HandleExitSight(Collider2D collider)
     private void HandleExitSight(Collider2D collider)
     {
-        if (collider.gameObject == _player.gameObject)
+        //if (_target == null)
+        //{
+        //    Debug.LogError("Target is not set for the enemy!");
+        //    return;
+        //}
+        if (collider.transform == _target.Transform)
         {
             _enemyMover.WalkPlayerExitSight();
             _enemyWeapon.StopAttack();

@@ -3,6 +3,7 @@ using UnityEngine;
 public class EnemyWeapon : MonoBehaviour
 {
     private PlayerHealthContainer _playerHealth;
+    private ITargetable _target;
     
     private float _attackRadius = 2f;
     private float _attackColldown = 2f;
@@ -13,8 +14,12 @@ public class EnemyWeapon : MonoBehaviour
 
     private void Start()
     {
-        Player player = GetComponentInParent<EnemyMover>().GetPlayer();
-        _playerHealth = player.GetComponent<PlayerHealthContainer>();
+        //Player player = GetComponentInParent<EnemyMover>().GetPlayer();
+        //_playerHealth = player.GetComponent<PlayerHealthContainer>();
+        _target = GetComponentInParent<EnemyMover>().GetPlayer();
+
+        if (_target is MonoBehaviour monoBehaviour)
+            _playerHealth = monoBehaviour.GetComponent<PlayerHealthContainer>();
     }
 
     private void Update()

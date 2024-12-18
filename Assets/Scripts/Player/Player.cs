@@ -2,13 +2,15 @@ using UnityEngine;
 
 [RequireComponent(typeof(UserInput), typeof(PlayerMover), typeof(PlayerWeapon))]
 [RequireComponent(typeof(PlayerAnimation), typeof(GroundDetector), typeof(Collector))]
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, ITargetable
 {
     [SerializeField] private PlayerMover _playerMover;
     [SerializeField] private PlayerAnimation _playerAnimation;
     [SerializeField] private UserInput _userInput;
     [SerializeField] private GroundDetector _groundDetector;
     [SerializeField] private PlayerWeapon _weapon;
+
+    public Transform Transform => transform;
 
     private Quaternion _rotateLeft = Quaternion.Euler(0, 180, 0);
     private Quaternion _rotateRight = Quaternion.identity;
