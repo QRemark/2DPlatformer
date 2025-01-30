@@ -14,7 +14,7 @@ public class Collector : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.TryGetComponent<ICollectible>(out var collectible)) //var
+        if(collision.TryGetComponent<ICollectible>(out var collectible))
         {
             collectible.Collect();
 
@@ -27,7 +27,6 @@ public class Collector : MonoBehaviour
                 float healtRange = medicineChest.GetHealthRange();
                 _healthContainer.IncreasePlayerHealth(healtRange);
             }
-            
         }
     }
 }
