@@ -10,7 +10,7 @@ public class PlayerHealthUI : MonoBehaviour
     [SerializeField] private Slider _percentHealthbar;
     [SerializeField] private Slider _gradualHealthbar;
 
-    void Start()
+    private void Start()
     {
         _playerHealth.OnHealthChanged.AddListener(UpdateHealthText);
         UpdateHealthText(_playerHealth.CurrentHealth, _playerHealth.MaxHealth);
