@@ -166,7 +166,6 @@ GameObject:
   - component: {fileID: 58495673}
   - component: {fileID: 58495672}
   - component: {fileID: 58495671}
-  - component: {fileID: 58495683}
   - component: {fileID: 58495675}
   - component: {fileID: 58495678}
   - component: {fileID: 58495677}
@@ -175,6 +174,7 @@ GameObject:
   - component: {fileID: 58495680}
   - component: {fileID: 58495681}
   - component: {fileID: 58495684}
+  - component: {fileID: 58495685}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -425,18 +425,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bd9903b621c14d4d807df2e7799e1a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &58495683
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 58495669}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db996eef5b0022e49bb2023f32d67ade, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &58495684
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -452,6 +440,18 @@ MonoBehaviour:
   _damage: 5
   _range: 9.5
   _shooterPoint: {fileID: 217873717}
+--- !u!114 &58495685
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 58495669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65479c05e5984fc4482c8c71e82166d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &163278651
 GameObject:
   m_ObjectHideFlags: 0
@@ -3447,7 +3447,7 @@ MonoBehaviour:
   - {fileID: 1807274784}
   - {fileID: 1658081290}
   - {fileID: 747434404}
-  _playerTarget: {fileID: 58495683}
+  _playerTarget: {fileID: 58495675}
 --- !u!4 &1858343079
 Transform:
   m_ObjectHideFlags: 0

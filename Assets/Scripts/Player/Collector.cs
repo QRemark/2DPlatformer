@@ -25,7 +25,7 @@ public class Collector : MonoBehaviour
             else if (collectible is MedicineChest medicineChest)
             {
                 float healtRange = medicineChest.GetHealthRange();
-                _healthContainer.IncreasePlayerHealth(healtRange);
+                _healthContainer.Increase(healtRange);
             }
             
         }

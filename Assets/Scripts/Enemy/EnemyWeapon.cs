@@ -40,7 +40,7 @@ public class EnemyWeapon : MonoBehaviour
 
         if (distance <= _attackRadius)
         {
-            _playerHealth.ReducePlayerHealth(_attckRange);
+            _playerHealth.Reduce(_attckRange);
             _nextAttackTime = Time.time + _attackColldown;
         }
     }
