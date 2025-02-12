@@ -4,13 +4,19 @@ using System.Collections;
 
 public class GradualHealthbar : MonoBehaviour
 {
-    [SerializeField] private PlayerHealthContainer _playerHealth;
     [SerializeField] private Slider _gradualHealthbar;
+
+    private IHealthContainer _healthContainer;
 
     private void Start()
     {
-        _playerHealth.HealthChanged += UpdateGradualHealthbar;
-        UpdateGradualHealthbar(_playerHealth.CurrentHealth, _playerHealth.MaxHealth);
+        _healthContainer = GetComponentInParent<IHealthContainer>();
+
+        if (_healthContainer != null)
+        {
+            _healthContainer.HealthChanged += UpdateGradualHealthbar;
+            UpdateGradualHealthbar(_healthContainer.CurrentHealth, _healthContainer.MaxHealth);
+        }
     }
 
     private void UpdateGradualHealthbar(float currentHealth, float maxHealth)
@@ -39,6 +45,6 @@ public class GradualHealthbar : MonoBehaviour
 
     private void OnDestroy()
     {
-        _playerHealth.HealthChanged -= UpdateGradualHealthbar;
+        _healthContainer.HealthChanged -= UpdateGradualHealthbar;
     }
 }

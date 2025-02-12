@@ -46,7 +46,7 @@ public class PlayerWeapon : MonoBehaviour
                 
                 if (enemyHealth != null)
                 {
-                    enemyHealth.ReduceHealthEnemy(_damage);
+                    enemyHealth.Reduce(_damage);
                 }
             }   
         }

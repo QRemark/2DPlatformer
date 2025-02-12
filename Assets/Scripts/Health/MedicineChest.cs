@@ -6,7 +6,7 @@ public class MedicineChest : MonoBehaviour, ICollectible
 {
     public event Action<ICollectible> OnCollected;
 
-    private float _healthRange = 10f;
+    private float _healthRange = 21f;
 
     public void Collect()
     {

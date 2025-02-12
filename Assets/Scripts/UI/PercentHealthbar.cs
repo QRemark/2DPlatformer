@@ -3,13 +3,19 @@ using UnityEngine.UI;
 
 public class PercentHealthbar : MonoBehaviour
 {
-    [SerializeField] private PlayerHealthContainer _playerHealth;
     [SerializeField] private Slider _percentHealthbar;
+
+    private IHealthContainer _healthContainer; 
 
     private void Start()
     {
-        _playerHealth.HealthChanged += UpdatePercentHealthbar;
-        UpdatePercentHealthbar(_playerHealth.CurrentHealth, _playerHealth.MaxHealth);
+        _healthContainer = GetComponentInParent<IHealthContainer>();
+
+        if (_healthContainer != null)
+        {
+            _healthContainer.HealthChanged += UpdatePercentHealthbar;
+            UpdatePercentHealthbar(_healthContainer.CurrentHealth, _healthContainer.MaxHealth);
+        }
     }
 
     private void UpdatePercentHealthbar(float currentHealth, float maxHealth)
@@ -19,6 +25,6 @@ public class PercentHealthbar : MonoBehaviour
 
     private void OnDestroy()
     {
-        _playerHealth.HealthChanged -= UpdatePercentHealthbar;
+        _healthContainer.HealthChanged -= UpdatePercentHealthbar;
     }
 }

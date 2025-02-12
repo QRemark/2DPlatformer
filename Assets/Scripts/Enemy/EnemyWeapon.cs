@@ -10,12 +10,10 @@ public class EnemyWeapon : MonoBehaviour
 
     private bool _isAttack = false;
     private float _nextAttackTime = 0f;
-    private float _attckRange = 5f;
+    private float _attckRange = 25f;
 
     private void Start()
     {
-        //Player player = GetComponentInParent<EnemyMover>().GetPlayer();
-        //_playerHealth = player.GetComponent<PlayerHealthContainer>();
         _target = GetComponentInParent<EnemyMover>().GetPlayer();
 
         if (_target is MonoBehaviour monoBehaviour)
